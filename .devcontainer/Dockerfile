@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
         gnupg \
         software-properties-common \
+        openssh-client \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
