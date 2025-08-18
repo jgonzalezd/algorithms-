@@ -1,6 +1,6 @@
 # 🐛 Algorithm Debugging Guide
 
-This guide covers debugging techniques for all four languages in your algorithm study environment.
+This guide covers debugging techniques for all four languages in your algorithm study environment using VS Code and vanilla debugging tools.
 
 ## 🚀 Quick Start Debugging
 
@@ -14,13 +14,6 @@ This guide covers debugging techniques for all four languages in your algorithm 
    - "Debug Python Algorithm" for `.py` files
    - "Debug JavaScript Algorithm" for `.js` files
    - "Debug TypeScript Algorithm" for `.ts` files
-
-### Method 2: Debug with Test Cases
-
-```bash
-# Debug Python algorithm with test cases
-python debug_with_tests.py sorting/bubble_sort/bubble_sort.py sorting/bubble_sort/test_cases.json
-```
 
 ## 🔧 Language-Specific Debugging
 
@@ -214,10 +207,10 @@ print(f"Match: {expected == actual}")
 - **Console Output**: Simple print/puts/console.log debugging
 - **Test Cases**: Use `test_cases.json` files for systematic testing
 
-### External Tools
-- **Ruby**: pry, byebug, ruby-debug
-- **Python**: pdb, ipdb, pudb
-- **JavaScript**: Node.js inspector, Chrome DevTools
+### Vanilla Debugging Tools
+- **Ruby**: pry, byebug
+- **Python**: pdb, ipdb
+- **JavaScript**: Node.js inspector
 - **TypeScript**: Same as JavaScript + type checking
 
 ## 📋 Debugging Checklist
@@ -261,17 +254,6 @@ Let's debug a bubble sort implementation:
 
 ## 🚀 Performance Debugging
 
-### Memory Usage
-```python
-# Python
-import tracemalloc
-tracemalloc.start()
-# ... your algorithm
-current, peak = tracemalloc.get_traced_memory()
-print(f"Current memory usage: {current / 1024 / 1024:.1f} MB")
-print(f"Peak memory usage: {peak / 1024 / 1024:.1f} MB")
-```
-
 ### Execution Time
 ```python
 # Python
@@ -288,10 +270,6 @@ print(f"Execution time: {end_time - start_time:.4f} seconds")
 console.time('bubbleSort');
 bubbleSort(arr);
 console.timeEnd('bubbleSort');
-
-// Memory usage (Node.js)
-const used = process.memoryUsage();
-console.log(`Memory usage: ${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`);
 ```
 
 This debugging setup gives you comprehensive tools to debug algorithms in all four languages effectively!
