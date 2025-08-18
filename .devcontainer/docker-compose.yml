@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WITH_NODE: "true"
+        WITH_RUBY: "true" 
+        WITH_PYTHON: "true"
+        NODE_VERSION: "18.17.0"
+        RUBY_VERSION: "3.2.0"
+        PYTHON_VERSION: "3.11"
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    networks:
+      - devnet
+
+networks:
+  devnet:

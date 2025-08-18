@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Ruby Algorithm",
+            "type": "shell",
+            "command": "ruby",
+            "args": ["${file}"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Python Algorithm",
+            "type": "shell",
+            "command": "python3",
+            "args": ["${file}"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run JavaScript Algorithm",
+            "type": "shell",
+            "command": "node",
+            "args": ["${file}"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TypeScript Algorithm",
+            "type": "shell",
+            "command": "ts-node",
+            "args": ["${file}"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TypeScript",
+            "type": "shell",
+            "command": "tsc",
+            "args": ["${file}"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": ["$tsc"]
+        },
+        {
+            "label": "Test All Languages",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Run Ruby Algorithm",
+                "Run Python Algorithm",
+                "Run JavaScript Algorithm",
+                "Run TypeScript Algorithm"
+            ],
+            "group": "build"
+        }
+    ]
+}

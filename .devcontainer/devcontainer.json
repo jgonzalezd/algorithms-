@@ -1,0 +1,61 @@
+{
+	"name": "Algorithm Study Environment",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash",
+						"args": ["-l"]
+					}
+				},
+				"python.defaultInterpreterPath": "/home/vscode/.pyenv/shims/python",
+				"python.terminal.activateEnvironment": true,
+				"ruby.useLanguageServer": true,
+				"ruby.lint": {
+					"rubocop": true
+				},
+				"javascript.suggest.autoImports": true,
+				"typescript.suggest.autoImports": true,
+				"typescript.preferences.includePackageJsonAutoImports": "auto",
+				"typescript.suggest.autoImports": true,
+				"typescript.updateImportsOnFileMove.enabled": "always"
+			},
+			// Add extensions for algorithm development and debugging
+			"extensions": [
+				"ms-python.python",
+				"rebornix.Ruby",
+				"ms-vscode.vscode-typescript-next",
+				"ms-vscode.vscode-json",
+				"ms-vscode.vscode-markdown",
+				"ms-vscode.vscode-git",
+				"ms-vscode.vscode-js-debug",
+				"ms-vscode.vscode-js-debug-companion",
+				"ms-vscode.debug-auto-launch"
+			]
+		}
+	},
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+
+	// Set environment variables for all language managers
+	"remoteEnv": {
+		"PATH": "/home/vscode/.rvm/bin:/home/vscode/.pyenv/shims:/home/vscode/.nvm/versions/node/default/bin:${containerEnv:PATH}",
+		"PYENV_ROOT": "/home/vscode/.pyenv",
+		"NVM_DIR": "/home/vscode/.nvm"
+	},
+
+
+
+	// Post-create command to set up version switching helpers and TypeScript
+	"postCreateCommand": "echo 'Version switching helpers ready. Use: switch-ruby, switch-python, switch-node' && echo 'TypeScript support installed. Use: tsc, ts-node'"
+} 
