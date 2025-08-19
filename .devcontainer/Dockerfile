@@ -9,7 +9,7 @@ ARG WITH_NODE=true
 ARG WITH_RUBY=true  
 ARG WITH_PYTHON=true
 ARG NODE_VERSION=18.17.0
-ARG RUBY_VERSION=3.2.0
+ARG RUBY_VERSION=3.2
 ARG PYTHON_VERSION=3.11
 ARG USERNAME=vscode
 ARG USER_UID=1000
@@ -72,6 +72,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN if [ "$WITH_NODE" = "true" ]; then \
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash && \
         echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
+        echo '# Fix npm/nvm conflicts BEFORE loading nvm' >> ~/.bashrc && \
+        echo 'if [ -f ~/.npmrc ]; then sed -i -e "/^prefix=/d" -e "/^globalconfig=/d" ~/.npmrc; fi' >> ~/.bashrc && \
         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc && \
         echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc && \
         echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc && \
@@ -79,6 +81,8 @@ RUN if [ "$WITH_NODE" = "true" ]; then \
                     nvm install ${NODE_VERSION} && \
                     nvm use ${NODE_VERSION} && \
                     nvm alias default ${NODE_VERSION} && \
+                    npm config delete prefix 2>/dev/null || true && \
+                    npm config delete globalconfig 2>/dev/null || true && \
                     npm config set prefix ~/.npm-global && \
                     npm install -g typescript ts-node @types/node"; \
     fi
@@ -98,10 +102,11 @@ RUN if [ "$WITH_RUBY" = "true" ]; then \
         rvm autolibs disable && \
         rvm install ${RUBY_VERSION} --disable-binary && \
         rvm use ${RUBY_VERSION} --default && \
-        gem install bundler:2.5.12 && \
-        echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc && \
-        echo "rvm use ${RUBY_VERSION} --default" >> ~/.bashrc && \
-        echo 'export PATH=$HOME/.rvm/bin:$PATH' >> ~/.bashrc; \
+        # Ensure Bundler present without pinning a specific patch level
+        if ! command -v bundler >/dev/null; then gem install bundler; fi && \
+        # Idempotent .bashrc updates with error handling
+        grep -qxF '[ -s ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm' ~/.bashrc || echo '[ -s ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm' >> ~/.bashrc && \
+        grep -qxF "rvm use ${RUBY_VERSION} --default 2>/dev/null || true" ~/.bashrc || echo "rvm use ${RUBY_VERSION} --default 2>/dev/null || true" >> ~/.bashrc; \
     fi
 
 ############################

@@ -38,7 +38,7 @@
 				"ms-vscode.vscode-git",
 				"ms-vscode.vscode-js-debug",
 				"ms-vscode.vscode-js-debug-companion",
-				"ms-vscode.debug-auto-launch"
+				"ms-vscode.debug-auto-launch",
 			]
 		}
 	},
@@ -48,9 +48,9 @@
 
 	// Set environment variables for all language managers
 	"remoteEnv": {
-		"PATH": "/home/vscode/.rvm/bin:/home/vscode/.pyenv/shims:/home/vscode/.nvm/versions/node/default/bin:${containerEnv:PATH}",
 		"PYENV_ROOT": "/home/vscode/.pyenv",
-		"NVM_DIR": "/home/vscode/.nvm"
+		"NVM_DIR": "/home/vscode/.nvm",
+		"rvm_path": "/home/vscode/.rvm"
 	},
 	// Mount SSH keys for GitHub access (using environment variable to avoid hardcoding username)
 	"mounts": [
@@ -63,6 +63,6 @@
 
 
 
-	// Post-create command to set up version switching helpers, TypeScript, and SSH permissions
-	"postCreateCommand": "mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/github_key && chmod 644 /home/vscode/.ssh/github_key.pub && chmod 600 /home/vscode/.ssh/config && echo 'Version switching helpers ready. Use: switch-ruby, switch-python, switch-node' && echo 'TypeScript support installed. Use: tsc, ts-node' && echo 'SSH key mounted and configured for GitHub access' && echo \"alias run-challenge='${containerWorkspaceFolder}/scripts/run.sh'\" >> /home/vscode/.bashrc"
+	// Post-create command to set up SSH permissions and algorithm aliases
+	"postCreateCommand": "mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/github_key && chmod 644 /home/vscode/.ssh/github_key.pub && chmod 600 /home/vscode/.ssh/config && echo 'SSH key mounted and configured for GitHub access' && /workspaces/Algorithms/.devcontainer/setup-aliases.sh && echo 'Algorithm study environment ready!'"
 } 

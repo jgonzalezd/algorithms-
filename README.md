@@ -98,7 +98,9 @@ run-challenge py  # for Python
 run-challenge rb  # for Ruby
 
 # Debug with breakpoints
-# Press F5 on any algorithm file
+## Ruby
+debugger
+rdbg solution.rb
 ```
 
 ## 🔄 Version Management
@@ -122,7 +124,32 @@ ruby --version && python --version && node --version && tsc --version
 
 # Test build system
 cd .devcontainer && ./build.sh --help
+
+# Test run-challenge alias
+run-challenge --help  # Should show usage information
 ```
+
+## 🔧 Troubleshooting
+
+### `run-challenge` alias not working?
+
+The `run-challenge` alias should be automatically set up when the devcontainer is created. If it's missing:
+
+```bash
+# Option 1: Reload your shell configuration
+source ~/.bashrc
+
+# Option 2: Manually add the alias (temporary)
+alias run-challenge='/workspaces/Algorithms/scripts/run.sh'
+
+# Option 3: Rebuild devcontainer (permanent fix)
+# In VS Code: Ctrl+Shift+P → "Dev Containers: Rebuild Container"
+```
+
+The alias is defined in:
+- Added to `.bashrc` during container creation
+- Setup automated via `.devcontainer/setup-aliases.sh` script
+- Triggered by `.devcontainer/devcontainer.json` postCreateCommand
 
 ## 📚 More Info
 

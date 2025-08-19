@@ -14,9 +14,15 @@ services:
         PYTHON_VERSION: "3.11"
     volumes:
       - ../..:/workspaces:cached
+      - rvm-cache:/home/vscode/.rvm
+      - bundle-cache:/home/vscode/.bundle
     command: sleep infinity
     networks:
       - devnet
 
 networks:
   devnet:
+
+volumes:
+  rvm-cache:
+  bundle-cache:

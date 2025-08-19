@@ -17,7 +17,7 @@ module Tester
       end
 
       begin
-        result = solution_func.call(test)
+        result = solution_func.call(test['params'])
       rescue StandardError => e
         puts "❌ Test case #{i+1} failed: Exception raised - #{e.message}"
         next
