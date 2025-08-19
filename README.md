@@ -84,6 +84,19 @@ python bubble_sort.py
 node bubble_sort.js
 ts-node bubble_sort.ts
 
+# Run challenges easily with the run script (recommend use the alias, look next section)
+cd code-challenges/your-challenge-name
+../../scripts/run.sh ts  # for TypeScript
+../../scripts/run.sh js  # for JavaScript
+../../scripts/run.sh py  # for Python
+../../scripts/run.sh rb  # for Ruby
+
+# After devcontainer rebuild, use the alias
+run-challenge ts  # for TypeScript
+run-challenge js  # for JavaScript
+run-challenge py  # for Python
+run-challenge rb  # for Ruby
+
 # Debug with breakpoints
 # Press F5 on any algorithm file
 ```

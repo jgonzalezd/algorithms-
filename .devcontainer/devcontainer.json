@@ -32,7 +32,6 @@
 			// Add extensions for algorithm development and debugging
 			"extensions": [
 				"ms-python.python",
-				"rebornix.Ruby",
 				"ms-vscode.vscode-typescript-next",
 				"ms-vscode.vscode-json",
 				"ms-vscode.vscode-markdown",
@@ -65,5 +64,5 @@
 
 
 	// Post-create command to set up version switching helpers, TypeScript, and SSH permissions
-	"postCreateCommand": "mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/github_key && chmod 644 /home/vscode/.ssh/github_key.pub && chmod 600 /home/vscode/.ssh/config && echo 'Version switching helpers ready. Use: switch-ruby, switch-python, switch-node' && echo 'TypeScript support installed. Use: tsc, ts-node' && echo 'SSH key mounted and configured for GitHub access'"
+	"postCreateCommand": "mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/github_key && chmod 644 /home/vscode/.ssh/github_key.pub && chmod 600 /home/vscode/.ssh/config && echo 'Version switching helpers ready. Use: switch-ruby, switch-python, switch-node' && echo 'TypeScript support installed. Use: tsc, ts-node' && echo 'SSH key mounted and configured for GitHub access' && echo \"alias run-challenge='${containerWorkspaceFolder}/scripts/run.sh'\" >> /home/vscode/.bashrc"
 } 
