@@ -64,5 +64,5 @@
 
 
 	// Post-create command to set up SSH permissions and algorithm aliases
-	"postCreateCommand": "mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/github_key && chmod 644 /home/vscode/.ssh/github_key.pub && chmod 600 /home/vscode/.ssh/config && echo 'SSH key mounted and configured for GitHub access' && /workspaces/Algorithms/.devcontainer/setup-aliases.sh && echo 'Algorithm study environment ready!'"
+	"postCreateCommand": "bash -c 'mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh; if [ -f /home/vscode/.ssh/github_key ]; then chmod 600 /home/vscode/.ssh/github_key; fi; if [ -f /home/vscode/.ssh/github_key.pub ]; then chmod 644 /home/vscode/.ssh/github_key.pub; fi; if [ -f /home/vscode/.ssh/config ]; then chmod 600 /home/vscode/.ssh/config; fi; echo \"SSH key mounted and configured for GitHub access\"; /workspaces/Algorithms/.devcontainer/setup-aliases.sh && echo \"Algorithm study environment ready!\"'"
 } 

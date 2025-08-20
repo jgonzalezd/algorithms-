@@ -90,12 +90,20 @@ cd code-challenges/your-challenge-name
 ../../scripts/run.sh js  # for JavaScript
 ../../scripts/run.sh py  # for Python
 ../../scripts/run.sh rb  # for Ruby
+../../scripts/run.sh -d ts  # debug TypeScript
+../../scripts/run.sh -d js  # debug JavaScript
+../../scripts/run.sh -d py  # debug Python
+../../scripts/run.sh -d rb  # debug Ruby
 
 # After devcontainer rebuild, use the alias
 run-challenge ts  # for TypeScript
 run-challenge js  # for JavaScript
 run-challenge py  # for Python
 run-challenge rb  # for Ruby
+run-challenge -d ts  # debug TypeScript
+run-challenge -d js  # debug JavaScript
+run-challenge -d py  # debug Python
+run-challenge -d rb  # debug Ruby
 
 # Debug with breakpoints
 ## Ruby
@@ -127,6 +135,7 @@ cd .devcontainer && ./build.sh --help
 
 # Test run-challenge alias
 run-challenge --help  # Should show usage information
+run-challenge -d --help  # Should show debug mode usage
 ```
 
 ## 🔧 Troubleshooting

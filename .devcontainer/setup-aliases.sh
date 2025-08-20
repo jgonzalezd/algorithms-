@@ -18,6 +18,17 @@ fi
 
 echo "Setting up algorithm study aliases..."
 
+# Ensure login shells source .bashrc, where aliases are defined
+BASH_PROFILE_PATH="/home/vscode/.bash_profile"
+if [ ! -f "$BASH_PROFILE_PATH" ] || ! grep -q ". ~/.bashrc" "$BASH_PROFILE_PATH"; then
+    echo "Configuring .bash_profile to source .bashrc for login shells..."
+    echo '' >> $BASH_PROFILE_PATH
+    echo '# Source .bashrc for aliases and functions' >> $BASH_PROFILE_PATH
+    echo 'if [ -f ~/.bashrc ]; then' >> $BASH_PROFILE_PATH
+    echo '    . ~/.bashrc' >> $BASH_PROFILE_PATH
+    echo 'fi' >> $BASH_PROFILE_PATH
+fi
+
 # Create or append to .bashrc with algorithm aliases
 cat >> /home/vscode/.bashrc << 'EOF'
 

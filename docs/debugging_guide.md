@@ -15,6 +15,21 @@ This guide covers debugging techniques for all four languages in your algorithm 
    - "Debug JavaScript Algorithm" for `.js` files
    - "Debug TypeScript Algorithm" for `.ts` files
 
+### Method 2: Using run-challenge with -d flag (New!)
+
+Use the built-in debug flag with the run-challenge script:
+
+```bash
+# Navigate to your challenge directory
+cd code-challenges/your-challenge-name
+
+# Debug with the -d flag
+run-challenge -d ts  # Debug TypeScript solution
+run-challenge -d js  # Debug JavaScript solution
+run-challenge -d py  # Debug Python solution
+run-challenge -d rb  # Debug Ruby solution
+```
+
 ## 🔧 Language-Specific Debugging
 
 ### Ruby Debugging
@@ -32,6 +47,9 @@ ruby -r pry -e "require_relative 'bubble_sort'; binding.pry"
 
 # Debug with byebug
 ruby -r byebug bubble_sort.rb
+
+# Debug with run-challenge (new!)
+run-challenge -d rb
 ```
 
 #### Adding Debug Points in Code
@@ -61,6 +79,9 @@ python -m pdb bubble_sort.py
 
 # Debug with ipdb (enhanced pdb)
 python -m ipdb bubble_sort.py
+
+# Debug with run-challenge (new!)
+run-challenge -d py
 ```
 
 #### Adding Debug Points in Code
@@ -93,6 +114,9 @@ node --inspect-brk bubble_sort.js
 
 # Debug with ts-node
 ts-node --inspect-brk bubble_sort.ts
+
+# Debug with run-challenge (new!)
+run-challenge -d js
 ```
 
 #### Adding Debug Points in Code
@@ -121,6 +145,9 @@ ts-node --inspect-brk bubble_sort.ts
 # Compile and debug
 tsc bubble_sort.ts
 node --inspect-brk bubble_sort.js
+
+# Debug with run-challenge (new!)
+run-challenge -d ts
 ```
 
 #### Adding Debug Points in Code
@@ -206,12 +233,39 @@ print(f"Match: {expected == actual}")
 - **VS Code Debugger**: Primary debugging tool
 - **Console Output**: Simple print/puts/console.log debugging
 - **Test Cases**: Use `test_cases.json` files for systematic testing
+- **run-challenge -d**: Command line debugging for all languages (see below)
 
 ### Vanilla Debugging Tools
 - **Ruby**: pry, byebug
 - **Python**: pdb, ipdb
 - **JavaScript**: Node.js inspector
 - **TypeScript**: Same as JavaScript + type checking
+
+### Using run-challenge Debug Mode
+
+The `run-challenge` command has a `-d` flag for quick terminal-based debugging:
+
+```bash
+# TypeScript debugging
+run-challenge -d ts
+# Uses ts-node --inspect-brk with Chrome DevTools
+# Open chrome://inspect in your browser to connect
+
+# JavaScript debugging
+run-challenge -d js
+# Uses node --inspect-brk with Chrome DevTools
+# Open chrome://inspect in your browser to connect
+
+# Python debugging
+run-challenge -d py
+# Uses Python's built-in pdb debugger
+# Common commands: n (next), s (step), c (continue), q (quit)
+
+# Ruby debugging
+run-challenge -d rb
+# Uses Ruby's built-in debug module
+# Common commands: n (next), s (step), c (continue), q (quit)
+```
 
 ## 📋 Debugging Checklist
 

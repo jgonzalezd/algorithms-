@@ -61,6 +61,9 @@ USER vscode
 WORKDIR /home/vscode
 SHELL ["/bin/bash", "-o", "pipefail", "-lc"]
 
+# Create and set permissions for .ssh directory to prevent root ownership on mount
+RUN mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh
+
 ############################
 # Node.js layer - conditional
 ############################
@@ -113,26 +116,22 @@ RUN if [ "$WITH_RUBY" = "true" ]; then \
 # Python layer - conditional
 ############################
 FROM ruby AS python
-ARG WITH_PYTHON  
+ARG WITH_PYTHON
 ARG PYTHON_VERSION
-
-USER root
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN if [ "$WITH_PYTHON" = "true" ]; then \
-        add-apt-repository ppa:deadsnakes/ppa -y && \
-        apt-get update && apt-get install -y --no-install-recommends \
-            python${PYTHON_VERSION} \
-            python${PYTHON_VERSION}-dev \
-            python${PYTHON_VERSION}-venv \
-            python3-pip && \
-        apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* && \
-        ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
-        ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python3 && \
-        python -m pip install --no-cache-dir --upgrade pip==24.0 setuptools==69.5.1 wheel==0.43.0; \
+        curl https://pyenv.run | bash && \
+        echo '' >> ~/.bashrc && \
+        echo '# Pyenv configuration' >> ~/.bashrc && \
+        echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc && \
+        echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc && \
+        echo 'eval "$(pyenv init --path)"' >> ~/.bashrc && \
+        echo 'eval "$(pyenv init -)"' >> ~/.bashrc && \
+        bash -ic "pyenv install ${PYTHON_VERSION} && \
+                   pyenv global ${PYTHON_VERSION} && \
+                   pip install --no-cache-dir --upgrade pip setuptools wheel"; \
     fi
-
-USER vscode
 
 ############################
 # Final development image
