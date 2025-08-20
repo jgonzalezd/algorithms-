@@ -58,11 +58,16 @@
 			"source": "${localEnv:HOME}/.ssh/github_key",
 			"target": "/home/vscode/.ssh/github_key",
 			"type": "bind"
+		},
+		{
+			"source": "${localEnv:HOME}/.ssh/github_key.pub",
+			"target": "/home/vscode/.ssh/github_key.pub",
+			"type": "bind"
 		}
 	],
 
 
 
 	// Post-create command to set up SSH permissions and algorithm aliases
-	"postCreateCommand": "bash -c 'mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh; if [ -f /home/vscode/.ssh/github_key ]; then chmod 600 /home/vscode/.ssh/github_key; fi; if [ -f /home/vscode/.ssh/github_key.pub ]; then chmod 644 /home/vscode/.ssh/github_key.pub; fi; if [ -f /home/vscode/.ssh/config ]; then chmod 600 /home/vscode/.ssh/config; fi; echo \"SSH key mounted and configured for GitHub access\"; /workspaces/Algorithms/.devcontainer/setup-aliases.sh && echo \"Algorithm study environment ready!\"'"
+	"postCreateCommand": "bash -c 'mkdir -p /home/vscode/.ssh && chmod 700 /home/vscode/.ssh; if [ -f /home/vscode/.ssh/github_key ]; then chmod 600 /home/vscode/.ssh/github_key && echo \"Host github.com\\n  HostName github.com\\n  User git\\n  IdentityFile /home/vscode/.ssh/github_key\\n  IdentitiesOnly yes\" > /home/vscode/.ssh/config && chmod 600 /home/vscode/.ssh/config && ssh-keyscan github.com >> /home/vscode/.ssh/known_hosts 2>/dev/null; fi; /workspaces/Algorithms/.devcontainer/setup-aliases.sh && echo \"Algorithm study environment ready!\"'"
 } 

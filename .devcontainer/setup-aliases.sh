@@ -18,10 +18,14 @@ fi
 
 echo "Setting up algorithm study aliases..."
 
-# Ensure login shells source .bashrc, where aliases are defined
+# Ensure login shells have RVM configuration
 BASH_PROFILE_PATH="/home/vscode/.bash_profile"
-if [ ! -f "$BASH_PROFILE_PATH" ] || ! grep -q ". ~/.bashrc" "$BASH_PROFILE_PATH"; then
-    echo "Configuring .bash_profile to source .bashrc for login shells..."
+if [ ! -f "$BASH_PROFILE_PATH" ]; then
+    echo "Creating .bash_profile for RVM configuration..."
+    echo '' >> $BASH_PROFILE_PATH
+    echo '# RVM Configuration' >> $BASH_PROFILE_PATH
+    echo '[ -s ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm' >> $BASH_PROFILE_PATH
+    echo "rvm use \${RUBY_VERSION:-3.2.2} --default 2>/dev/null || true" >> $BASH_PROFILE_PATH
     echo '' >> $BASH_PROFILE_PATH
     echo '# Source .bashrc for aliases and functions' >> $BASH_PROFILE_PATH
     echo 'if [ -f ~/.bashrc ]; then' >> $BASH_PROFILE_PATH
