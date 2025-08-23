@@ -2,7 +2,7 @@ import json
 import sys
 from typing import Callable, Any
 
-def run(solution_func: Callable, case_file: str = 'test_cases.json') -> None:
+def run(solution_func: Callable, case_file: str = 'test_cases.json', id = None) -> None:
     try:
         with open(case_file, 'r', encoding='utf-8') as f:
             test_cases = json.load(f)
@@ -11,13 +11,16 @@ def run(solution_func: Callable, case_file: str = 'test_cases.json') -> None:
         sys.exit(1)
     
     for i, case in enumerate(test_cases, start=1):
+        if id is not None and case.get('id') != id:
+            continue
+
         expected = case.pop('expected', None)
         if expected is None:
             print(f"Warning: Test case {i} missing 'expected' key.")
             continue
         
         try:
-            result = solution_func(**case)
+            result = solution_func(**case.pop('params'))
         except Exception as e:
             print(f"❌ Test case {i} failed: Exception raised - {str(e)}")
             continue  # Or handle as needed

@@ -1,4 +1,5 @@
-const fs = require('fs');
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Runs test cases from a JSON file against a provided solution function.
@@ -7,15 +8,27 @@ const fs = require('fs');
  */
 function runTests(solutionFunc: (...args: any[]) => any, caseFile: string = 'test_cases.json'): void {
   let testCases: any[];
+  
+  // Try to find the test cases file relative to the calling script
+  let testCasesPath = caseFile;
+  if (!fs.existsSync(testCasesPath)) {
+    // If not found in current directory, try to find it relative to the calling script
+    const callingScript = process.argv[1];
+    if (callingScript) {
+      const scriptDir = path.dirname(callingScript);
+      testCasesPath = path.join(scriptDir, caseFile);
+    }
+  }
+  
   try {
-    testCases = JSON.parse(fs.readFileSync(caseFile, 'utf8'));
+    testCases = JSON.parse(fs.readFileSync(testCasesPath, 'utf8'));
   } catch (e: any) {
-    console.error(`Error: ${caseFile} not found or invalid JSON.`, e.message);
+    console.error(`Error: ${testCasesPath} not found or invalid JSON.`, e.message);
     process.exit(1);
   }
 
   testCases.forEach((test: any, i: number) => {
-    const { expected, ...params } = test;
+    const { expected, params } = test;
     if (expected === undefined) {
       console.log(`Warning: Test case ${i + 1} missing 'expected' key.`);
       return;
@@ -38,4 +51,4 @@ function runTests(solutionFunc: (...args: any[]) => any, caseFile: string = 'tes
   });
 }
 
-module.exports = { run: runTests };
+export { runTests as run };

@@ -40,8 +40,53 @@ run_tests() {
             file=$(find_solution_file "TypeScript" "ts")
             if [ "$DEBUG_MODE" = true ]; then
                 echo "Debugging TypeScript solution: $file"
+                echo "Compiling TypeScript with source maps..."
+                
+                # Compile both TypeScript files to JavaScript with source maps
+                js_file="${file%.ts}.js"
+                tester_ts="../../lib/ts_tester.ts"
+                tester_js="../../lib/ts_tester.js"
+                
+                # Compile both files (skip type checking, focus on compilation for debugging)
+                tsc --noEmitOnError false --skipLibCheck --noImplicitAny false --inlineSourceMap --target ES2020 --module commonjs --esModuleInterop --allowSyntheticDefaultImports --moduleResolution node "$file" "$tester_ts" --outDir .
+                
+                # Move tester.js to correct location
+                if [ -f "ts_tester.js" ]; then
+                    mv "ts_tester.js" "$tester_js"
+                fi
+                
+                if [ ! -f "$js_file" ]; then
+                    echo "Error: TypeScript compilation failed"
+                    exit 1
+                fi
+                
+                # Update require path in compiled solution.js to point to compiled tester
+                if [ -f "$js_file" ]; then
+                    sed -i "s|require('../../lib/ts_tester')|require('../../lib/ts_tester.js')|g" "$js_file"
+                fi
+                
                 echo "Starting Node.js built-in debugger in the terminal..."
-                node inspect -r ts-node/register "$file"
+                
+                # Setup cleanup trap
+                cleanup_debug() {
+                    echo "Cleaning up debugger process and compiled files..."
+                    kill $DEBUG_PID 2>/dev/null || true
+                    wait $DEBUG_PID 2>/dev/null || true
+                    rm -f "$js_file" "${js_file}.map" "$tester_js" "${tester_js}.map" 2>/dev/null || true
+                }
+                trap cleanup_debug EXIT INT TERM
+                
+                # Start debugger server in background
+                node --inspect-brk --enable-source-maps "$js_file" &
+                DEBUG_PID=$!
+                
+                # Wait for debugger server to start
+                echo "Waiting for debugger server to start..."
+                sleep 2
+                
+                # Auto-connect to debugger
+                echo "Connecting to debugger..."
+                node inspect 127.0.0.1:9229
             else
                 echo "Running TypeScript solution: $file"
                 ts-node --compiler-options '{"module": "commonjs"}' "$file"
