@@ -22,9 +22,9 @@
             "type": "python",
             "request": "launch",
             "name": "Debug Python Solution",
-            "program": "${workspaceFolder}/code-challenges/LT088-merged-sorted-array/solution.py",
+            "program": "${file}",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/code-challenges/LT088-merged-sorted-array",
+            "cwd": "${fileDirname}",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/lib"
             },

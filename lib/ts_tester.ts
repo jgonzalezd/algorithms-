@@ -1,12 +1,23 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+interface TestOptions {
+  caseFile?: string;
+  id?: number;
+}
+
 /**
  * Runs test cases from a JSON file against a provided solution function.
  * @param solutionFunc - The solution function to test.
- * @param caseFile - Path to the test cases JSON file.
+ * @param options - Optional configuration object with caseFile and/or id.
  */
-function runTests(solutionFunc: (...args: any[]) => any, caseFile: string = 'test_cases.json'): void {
+function runTests(
+  solutionFunc: (...args: any[]) => any, 
+  options?: TestOptions
+): void {
+  const caseFile = options?.caseFile || 'test_cases.json';
+  const id = options?.id;
+
   let testCases: any[];
   
   // Try to find the test cases file relative to the calling script
@@ -28,6 +39,11 @@ function runTests(solutionFunc: (...args: any[]) => any, caseFile: string = 'tes
   }
 
   testCases.forEach((test: any, i: number) => {
+    // Skip test cases that don't match the specified ID
+    if (id !== undefined && test.id !== id) {
+      return;
+    }
+
     const { expected, params } = test;
     if (expected === undefined) {
       console.log(`Warning: Test case ${i + 1} missing 'expected' key.`);
