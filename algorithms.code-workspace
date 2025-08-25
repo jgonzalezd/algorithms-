@@ -1,0 +1,33 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "editor.suggest.enabled": false,
+        "editor.quickSuggestions": false,
+        "editor.inlineSuggest.enabled": false,
+        "cursor.completions.enabled": false,
+        "ruby.useLanguageServer": false,
+        "ruby.intellisense": false,
+        "ruby.codeCompletion": false,
+        "ruby.lsp.enabled": false,
+        "ruby-lsp.enabled": false,
+        "rubyLSP.enabled": false,
+        "solargraph.completion": false,
+        "extensions.autoUpdate": false,
+        "[ruby]": {
+            "editor.suggest.enabled": false,
+            "editor.quickSuggestions": false,
+            "editor.inlineSuggest.enabled": false,
+            "editor.parameterHints.enabled": false,
+            "editor.tabCompletion": "off",
+            "editor.wordBasedSuggestions": "off"
+        }
+    },
+    "extensions": {
+        "recommendations": []
+    }
+}
+
